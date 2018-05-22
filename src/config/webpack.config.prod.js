@@ -61,12 +61,6 @@ const webpackConfig = merge(baseWebpackConfig, {
         .relative(paths.appSrc, info.absoluteResourcePath)
         .replace(/\\/g, '/'),
   },
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    moment: 'moment',
-    'moment/locale/zh-cn': 'moment.locale',
-  },
   module: {
     rules: styleLoaders({ extract: true, isProduction: true }),
   },
@@ -192,7 +186,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       chunks: ['vendor'],
     }),
   ],
-})
+}, config.customed.webpack.prod)
 
 if (config.build.bundleAnalyzerReport) {
   // Webpack dashboard

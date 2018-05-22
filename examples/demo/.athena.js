@@ -1,20 +1,14 @@
 module.exports = {
   entry: 'src/index.js',
-  babel: {
-    presets: [
-      "es2015",
-      "react",
-      "stage-0"
-    ],
-    plugins: [
-      "transform-runtime"
-    ],
-    env: {
-      test: {
-        plugins: [ "istanbul" ]
-      }
+  babel: {},
+  webpack: {
+    dev: {},
+    prod: {
+      externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM',
+      },
     }
   },
-  webpack: {},
   proxy: {}
 }

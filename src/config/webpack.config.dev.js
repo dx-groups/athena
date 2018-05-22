@@ -121,7 +121,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   performance: {
     hints: false,
   },
-})
+}, config.customed.webpack.dev)
 
 if (config.dev.showPageSkeleton) {
   const { SkeletonPlugin } = require('page-skeleton-webpack-plugin')

@@ -1,7 +1,6 @@
 
 const path = require('path')
 const paths = require('./paths')
-const merge = require('webpack-merge')
 const config = require('./index')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
@@ -13,7 +12,7 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-module.exports = merge(config.customed.webpack, {
+module.exports = {
   context: resolve('/'),
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -128,9 +127,19 @@ module.exports = merge(config.customed.webpack, {
           // directory for faster rebuilds.
           cacheDirectory: !isProduction,
           compact: isProduction,
-          plugins: [
-            ['import', [{ libraryName: 'antd', style: true }]],
+          presets: [
+            'env',
+            'stage-0',
+            'react',
           ],
+          plugins: [
+            'transform-runtime',
+          ],
+          env: {
+            test: {
+              plugins: ['istanbul'],
+            },
+          },
           ...config.customed.babel,
         },
       },
@@ -164,4 +173,4 @@ module.exports = merge(config.customed.webpack, {
     tls: 'empty',
     child_process: 'empty',
   },
-})
+}
