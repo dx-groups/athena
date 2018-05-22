@@ -1,0 +1,47 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  globals: { // 全局变量，false代表无法重写
+    React: false,
+    document: false,
+    navigator: false,
+    window: false,
+  },
+  // http://eslint.org/docs/rules/xxx, xxx代表rule名称, 0=off, 1=warning, 2=error
+  rules: { // 具体规则
+    "arrow-parens": ["error", "as-needed"],
+    "arrow-body-style": ["warn", "as-needed", { "requireReturnForObjectLiteral": true }],
+    "comma-dangle": ["warn", "only-multiline"],
+    "global-require": ["warn"],
+    "import/no-named-as-default": ["off"],
+    "import/prefer-default-export": ["off"],
+    "max-len": ["warn", 120, 2],
+    "new-cap": ["error", { "capIsNewExceptions": [ ] }],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-trailing-spaces": ["error", { "skipBlankLines": true }],
+    "no-underscore-dangle": ["off", { "allowAfterThis": true }],
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
+//    "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "caughtErrors": "none" }],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "object-shorthand": ["warn"],
+    "padded-blocks": ["error", "never"],
+    "prefer-template": ["off"],
+    "quote-props": ["error", "consistent-as-needed", { "keywords": true }],
+    "react/jsx-filename-extension": ["off"],
+    "react/prefer-stateless-function": ["off"],
+  }
+}
