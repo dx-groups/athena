@@ -1,6 +1,6 @@
 {
   "name": "@dx-groups/athena",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "基于 create-react-app 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"
@@ -10,7 +10,7 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "pub": "npm publish --access public --registry=https://registry.npmjs.org",
     "lint": "eslint src",
-    "lint-fix": "eslint --fix src",
+    "lint-fix": "eslint --fix src bin",
     "validate": "npm ls"
   },
   "repository": {
