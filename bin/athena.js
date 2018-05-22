@@ -28,7 +28,7 @@ switch (script) {
   case 'build':
   case 'test': {
     const proc = fork(
-      require.resolve(`../src/${script}`),
+      require.resolve(`../lib/${script}`),
       args,
       {
         // stdio: 'inherit',

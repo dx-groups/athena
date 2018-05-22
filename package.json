@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf lib && babel src --out-dir lib",
-    "pub": "npm publish --registry=https://registry.npmjs.org",
+    "pub": "npm publish --access public --registry=https://registry.npmjs.org",
     "lint": "eslint src",
     "lint-fix": "eslint --fix src",
     "validate": "npm ls"
