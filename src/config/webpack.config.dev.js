@@ -123,43 +123,43 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
 }, config.customed.webpack.dev)
 
-if (config.dev.showPageSkeleton) {
-  const { SkeletonPlugin } = require('page-skeleton-webpack-plugin')
-  devWebpackConfig.plugins.push(new SkeletonPlugin({
-    pathname: paths.resolveApp('shell'), // 用来存储 shell 文件的地址
-    staticDir: config.output, // 最好和 `output.path` 相同
-    routes: ['/'],
-    port: '7890',
-    loading: 'chiaroscuro',
-    svg: {
-      color: '#EFEFEF',
-      shape: 'circle',
-      shapeOpposite: ['.Rating-gray_1kpffd5_0 svg'],
-    },
-    image: {
-      shape: 'rect', // `rect` | `circle`
-      color: '#EFEFEF',
-      shapeOpposite: ['.mint-swipe-items-wrap img'],
-    },
-    pseudo: {
-      color: '#EFEFEF', // or transparent
-      shape: 'circle', // circle | rect
-      shapeOpposite: ['.delivery-icon-hollow_3q8_B5r_0', '.index-premium_39rl0v9'],
-    },
-    button: {
-      color: '#EFEFEF',
-      excludes: ['.mint-swipe-items-wrap a'],
-    },
-    defer: 5000,
-    excludes: [],
-    remove: [],
-    hide: ['.index-dashedline_7B79b3W', '.Rating-actived_GBtiHkB_0'],
-    grayBlock: ['#header'],
-    cssUnit: 'rem',
-    headless: true,
-    // minify: false,
-    noInfo: false,
-  }))
-}
+// if (config.dev.showPageSkeleton) {
+//   const { SkeletonPlugin } = require('page-skeleton-webpack-plugin')
+//   devWebpackConfig.plugins.push(new SkeletonPlugin({
+//     pathname: paths.resolveApp('shell'), // 用来存储 shell 文件的地址
+//     staticDir: config.output, // 最好和 `output.path` 相同
+//     routes: ['/'],
+//     port: '7890',
+//     loading: 'chiaroscuro',
+//     svg: {
+//       color: '#EFEFEF',
+//       shape: 'circle',
+//       shapeOpposite: ['.Rating-gray_1kpffd5_0 svg'],
+//     },
+//     image: {
+//       shape: 'rect', // `rect` | `circle`
+//       color: '#EFEFEF',
+//       shapeOpposite: ['.mint-swipe-items-wrap img'],
+//     },
+//     pseudo: {
+//       color: '#EFEFEF', // or transparent
+//       shape: 'circle', // circle | rect
+//       shapeOpposite: ['.delivery-icon-hollow_3q8_B5r_0', '.index-premium_39rl0v9'],
+//     },
+//     button: {
+//       color: '#EFEFEF',
+//       excludes: ['.mint-swipe-items-wrap a'],
+//     },
+//     defer: 5000,
+//     excludes: [],
+//     remove: [],
+//     hide: ['.index-dashedline_7B79b3W', '.Rating-actived_GBtiHkB_0'],
+//     grayBlock: ['#header'],
+//     cssUnit: 'rem',
+//     headless: true,
+//     // minify: false,
+//     noInfo: false,
+//   }))
+// }
 
 module.exports = devWebpackConfig
