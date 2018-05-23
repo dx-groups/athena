@@ -42,11 +42,11 @@ dotenvFiles.forEach((dotenvFile) => {
 // Otherwise, we risk importing Node.js core modules into an app instead of Webpack shims.
 // https://github.com/facebookincubator/create-react-app/issues/1023#issuecomment-265344421
 // We also resolve them to make sure all tools using them work consistently.
-const appDirectory = fs.realpathSync(process.cwd())
+const { resolveApp } = paths
 process.env.NODE_PATH = (process.env.NODE_PATH || '')
   .split(path.delimiter)
   .filter(folder => folder && !path.isAbsolute(folder))
-  .map(folder => path.resolve(appDirectory, folder))
+  .map(folder => resolveApp(folder))
   .join(path.delimiter)
 
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be

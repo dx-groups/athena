@@ -8,12 +8,8 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-function resolve(dir) {
-  return path.join(__dirname, '..', dir)
-}
-
 module.exports = {
-  context: resolve('/'),
+  context: paths.appDirectory,
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
     // We placed these paths second because we want `node_modules` to "win"

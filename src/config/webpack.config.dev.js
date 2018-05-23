@@ -126,8 +126,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 if (config.dev.showPageSkeleton) {
   const { SkeletonPlugin } = require('page-skeleton-webpack-plugin')
   devWebpackConfig.plugins.push(new SkeletonPlugin({
-    pathname: path.resolve(__dirname, '../shell'), // 用来存储 shell 文件的地址
-    staticDir: path.resolve(__dirname, '../dist'), // 最好和 `output.path` 相同
+    pathname: paths.resolveApp('shell'), // 用来存储 shell 文件的地址
+    staticDir: config.output, // 最好和 `output.path` 相同
     routes: ['/'],
     port: '7890',
     loading: 'chiaroscuro',

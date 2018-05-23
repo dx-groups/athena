@@ -175,7 +175,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         return (
           resource &&
           /\.js$/.test(resource) &&
-          resource.indexOf(path.join(__dirname, '../node_modules')) >= 0 &&
+          resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
           config.customed.webpack.vendor.every(m => resource.indexOf(m) < 0)
         )
       },

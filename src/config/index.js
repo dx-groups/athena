@@ -1,13 +1,7 @@
-const path = require('path')
 const paths = require('./paths')
 
-const cwd = process.cwd()
-function resolve(dir) {
-  return path.join(cwd, dir)
-}
-
-const packageConfig = require(resolve('package.json'))
-const customedConfig = require(resolve('.athena.js'))
+const { resolveApp, appPackageJson } = paths
+const customedConfig = require(resolveApp('.athena.js'))
 
 // Deal with proxy is {}
 let { proxy } = customedConfig
@@ -16,8 +10,8 @@ if (proxy && Object.keys(proxy).length === 0) {
 }
 
 module.exports = {
-  name: packageConfig.name,
-  entry: customedConfig.entry ? resolve(customedConfig.entry) : paths.appIndexJs,
+  name: require(appPackageJson).name,
+  entry: customedConfig.entry ? resolveApp(customedConfig.entry) : paths.appIndexJs,
   output: paths.appBuild,
 
   customed: {
@@ -65,10 +59,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: resolve('public/index.html'),
+    index: resolveApp('public/index.html'),
 
     // Paths
-    assetsRoot: resolve('dist'),
+    assetsRoot: resolveApp('dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
     cssFilename: 'static/css/[name].[contenthash:8].css',
