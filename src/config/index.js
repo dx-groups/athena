@@ -64,7 +64,7 @@ module.exports = {
     // Paths
     assetsRoot: resolveApp('dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: './',
+    assetsPublicPath: customedConfig.publicPath || '/',
     cssFilename: 'static/css/[name].[contenthash:8].css',
 
     // https://webpack.js.org/configuration/devtool/#production

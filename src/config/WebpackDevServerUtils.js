@@ -10,7 +10,8 @@ const clearConsole = require('react-dev-utils/clearConsole')
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 const getProcessForPort = require('react-dev-utils/getProcessForPort')
 
-const isInteractive = process.stdout.isTTY
+const isInteractive = true
+// const isInteractive = process.stdout.isTTY
 let handleCompile
 
 // You can safely remove this after ejecting.

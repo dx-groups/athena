@@ -1,6 +1,6 @@
 {
   "name": "@dx-groups/athena",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "基于 create-react-app 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"

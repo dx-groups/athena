@@ -100,7 +100,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         // Display warnings when dropping unreachable code or unused declarations etc
-        warnings: true,
+        warnings: false,
         drop_console: false,
         // remove debugger; statements
         drop_debugger: true,
