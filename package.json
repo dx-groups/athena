@@ -19,7 +19,8 @@
   },
   "keywords": [
     "athena",
-    "create-react-app"
+    "webpack",
+    "react"
   ],
   "authors": [
     "alcat2008 <ge_yangyang@126.com> (https://github.com/alcat2008)"

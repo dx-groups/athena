@@ -1,6 +1,32 @@
 # athena
 
-`athena` 是基于 create-react-app 的应用开发工具，添加灵活的配置选项及周边支持
+
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![gemnasium deps][gemnasium-image]][gemnasium-url]
+[![npm download][download-image]][download-url]
+
+[npm-image]: http://img.shields.io/npm/v/@dx-groups/athena.svg?style=flat-square
+[npm-url]: http://npmjs.org/package/@dx-groups/athena
+[travis-image]: https://img.shields.io/travis/elephant-fe/@dx-groups/athena.svg?style=flat-square
+[travis-url]: https://travis-ci.org/elephant-fe/@dx-groups/athena
+[coveralls-image]: https://img.shields.io/coveralls/elephant-fe/@dx-groups/athena.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/elephant-fe/@dx-groups/athena?branch=master
+[gemnasium-image]: http://img.shields.io/gemnasium/elephant-fe/@dx-groups/athena.svg?style=flat-square
+[gemnasium-url]: https://gemnasium.com/elephant-fe/@dx-groups/athena
+[node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
+[node-url]: http://nodejs.org/download/
+[download-image]: https://img.shields.io/npm/dm/@dx-groups/athena.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@dx-groups/athena
+
+
+`athena` 是基于 webpack 的应用开发工具，添加灵活的配置选项及周边支持
+
+
+安装：
+
+[![@dx-groups/athena](https://nodei.co/npm/@dx-groups/athena.png)](https://npmjs.org/package/@dx-groups/athena)
 
 
 ## 设计原则
@@ -61,7 +87,11 @@ ATHENA_ENV_<env>=<value> athena <cmd>
 
 之后，在代码中，即可通过 `process.env.<env>` 取到该值
 
-例如： 执行命令 'ATHENA_ENV_BUILD_ENV=test athena build'，项目中即可取到 'process.env.BUILD_ENV' 的值为 'test'
+例如： 执行命令
+
+> ATHENA_ENV_BUILD_ENV=test athena build'
+
+项目中即可取到 process.env.BUILD_ENV 的值为 test
 
 
 ## 命令
@@ -92,14 +122,7 @@ ATHENA_ENV_<env>=<value> athena <cmd>
 
 ## lint && lint-fix
 
-默认内置了 `eslint` 和 `stylelint` 两种 lint 工具，可以在 `package.json` 中配置相应命令
-
-```json
-"scripts": {
-  "lint": "athena lint src",
-  "lint-fix": "athena lint-fix src"
-},
-```
+默认内置了 `eslint` 和 `stylelint` 两种 lint 工具，并且触发时机是一致的
 
 eslint 的规则可以在项目根目录下创建 `.eslintrc` 或者 `.eslintrc.js` 中配置
 
