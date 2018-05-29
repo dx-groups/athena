@@ -96,6 +96,20 @@ function customLoaders(options) {
           importLoaders: 2,
           minimize: options.isProduction,
           sourceMap: true,
+          modules: false,
+        },
+      },
+      postcssLoader,
+      lessLoader,
+    ],
+    lessModule: [
+      styleLoader,
+      {
+        loader: require.resolve('css-loader'),
+        options: {
+          importLoaders: 2,
+          minimize: options.isProduction,
+          sourceMap: true,
           modules: true,
           localIdentName: '[name]_[local]_[hash:base64:3]',
         },
@@ -122,6 +136,7 @@ function customLoaders(options) {
     babel: generateLoaders('babel'),
     css: generateLoaders('css'),
     less: generateLoaders('less'),
+    lessModule: generateLoaders('lessModule'),
   }
 }
 
@@ -132,6 +147,7 @@ function customHappyLoaders(options) {
     babel: ['happypack/loader?id=babel'],
     css: ['happypack/loader?id=css'],
     less: ['happypack/loader?id=less'],
+    lessModule: ['happypack/loader?id=lessModule'],
   }
 
   // generate happy loader string to be used with extract text plugin
@@ -156,13 +172,22 @@ function customHappyLoaders(options) {
     babel: generateHappyLoaders('babel'),
     css: generateHappyLoaders('css'),
     less: generateHappyLoaders('less'),
+    lessModule: generateHappyLoaders('lessModule'),
   }
 }
 
-const TEXTRE = {
+const TESTRES = {
   babel: '(js|jsx)',
   css: 'css',
   less: 'less',
+  lessModule: 'less',
+}
+
+const INCLUDES = {
+  babel: paths.appSrc,
+  css: paths.appDirectory,
+  less: paths.appNodeModules,
+  lessModule: paths.appSrc,
 }
 
 // Generate happy loaders for standalone style files
@@ -170,10 +195,10 @@ exports.happyLoaders = function styleLoaders(options) {
   const loaders = customHappyLoaders(options)
 
   return Object.keys(loaders).map(extension => ({
-    test: new RegExp(`\\.${TEXTRE[extension]}$`),
+    test: new RegExp(`\\.${TESTRES[extension]}$`),
     use: loaders[extension],
-    exclude: /node_modules/,
-    include: paths.appSrc,
+    // exclude: /node_modules/,
+    include: INCLUDES[extension],
   }))
 }
 

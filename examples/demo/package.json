@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node ../../bin/athena.js start",
     "build": "ATHENA_ENV_BUILD_ENV=test node ../../bin/athena.js build",
+    "analyze": "ATHENA_ENV_BUILD_ENV=test node ../../bin/athena.js build --report",
     "lint": "node ../../bin/athena.js lint src",
     "lint-fix": "node ../../bin/athena.js lint-fix src"
   },
