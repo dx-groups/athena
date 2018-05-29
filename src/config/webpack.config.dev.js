@@ -15,7 +15,8 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 
-const { styleLoaders } = require('./styleLoaders')
+// const { styleLoaders } = require('./styleLoaders')
+const { happyLoaders, happyPlugins } = require('./happypacks')
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -76,9 +77,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
 
   module: {
-    rules: styleLoaders({ extract: false, isProduction: false }),
+    rules: happyLoaders({ extract: false, isProduction: false }),
   },
-  plugins: [
+  plugins: happyPlugins({ extract: false, isProduction: false }).concat([
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -114,7 +115,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new StyleLintPlugin({
       files: ['src/**/*.less', 'src/**/*.css'],
     }),
-  ],
+  ]),
   // Turn off performance hints during development because we don't do any
   // splitting or minification in interest of speed. These warnings become
   // cumbersome.

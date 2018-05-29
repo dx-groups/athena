@@ -1,12 +1,9 @@
 
 const path = require('path')
 const paths = require('./paths')
-const config = require('./index')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
-
-const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   context: paths.appDirectory,
@@ -108,35 +105,6 @@ module.exports = {
         options: {
           limit: 10000,
           name: 'static/fonts/[name].[hash:7].[ext]',
-        },
-      },
-
-      // Process JS with Babel.
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        include: paths.appSrc,
-        loader: require.resolve('babel-loader'),
-        options: {
-          // This is a feature of `babel-loader` for webpack (not Babel itself).
-          // It enables caching results in ./node_modules/.cache/babel-loader/
-          // directory for faster rebuilds.
-          cacheDirectory: !isProduction,
-          compact: isProduction,
-          presets: [
-            'env',
-            'stage-0',
-            'react',
-          ],
-          plugins: [
-            'transform-runtime',
-          ],
-          env: {
-            test: {
-              plugins: ['istanbul'],
-            },
-          },
-          ...config.customed.babel,
         },
       },
 

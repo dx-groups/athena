@@ -58,7 +58,7 @@ switch (script) {
     console.log(`Starting lint ${chalk.cyan(chalk.bold(args))} ...\n`)
     const esArgs = args.join(' ')
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
-    exec(`eslint ${esArgs} && stylelint "${styleArgs}"`, (error, stdout, stderr) => {
+    exec(`eslint ${esArgs} && stylelint "${styleArgs}"`, (error) => {
       if (error) {
         console.error(`Athena lint error: ${error}`)
         // return;
@@ -71,7 +71,7 @@ switch (script) {
     console.log(`Starting lint-fix ${chalk.cyan(chalk.bold(args))} ...\n`)
     const esArgs = args.join(' ')
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
-    exec(`eslint --fix ${esArgs} && stylelint --fix "${styleArgs}"`, (error, stdout, stderr) => {
+    exec(`eslint --fix ${esArgs} && stylelint --fix "${styleArgs}"`, (error) => {
       if (error) {
         console.error(`Athena lint-fix error: ${error}`)
         // return;

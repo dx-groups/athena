@@ -1,7 +1,7 @@
 {
   "name": "@dx-groups/athena",
-  "version": "1.0.8",
-  "description": "基于 create-react-app 的应用开发工具，添加灵活的配置选项及周边支持",
+  "version": "1.0.9",
+  "description": "基于 webpack 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"
   },
@@ -52,11 +52,12 @@
     "file-loader": "0.11.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "fs-extra": "3.0.1",
+    "happypack": "^5.0.0",
     "html-webpack-plugin": "2.29.0",
     "http-proxy-middleware": "^0.17.3",
     "jest": "20.0.4",
     "less": "^2.7.3",
-    "less-loader": "^4.0.5",
+    "less-loader": "^4.1.0",
     "node-notifier": "^5.2.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",

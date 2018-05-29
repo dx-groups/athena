@@ -15,7 +15,8 @@ const paths = require('./paths')
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
 const baseWebpackConfig = require('./webpack.base.conf')
-const { styleLoaders } = require('./styleLoaders')
+// const { styleLoaders } = require('./styleLoaders')
+const { happyLoaders, happyPlugins } = require('./happypacks')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -62,9 +63,9 @@ const webpackConfig = merge(baseWebpackConfig, {
         .replace(/\\/g, '/'),
   },
   module: {
-    rules: styleLoaders({ extract: true, isProduction: true }),
+    rules: happyLoaders({ extract: true, isProduction: true }),
   },
-  plugins: [
+  plugins: happyPlugins({ extract: true, isProduction: true }).concat([
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -186,7 +187,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: 'manifest',
       chunks: ['vendor'],
     }),
-  ],
+  ]),
 }, config.customed.webpack.prod)
 
 if (config.build.bundleAnalyzerReport) {
