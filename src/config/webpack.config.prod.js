@@ -16,7 +16,7 @@ const { getClientEnvironment } = require('./env')
 const config = require('./index')
 const baseWebpackConfig = require('./webpack.base.conf')
 // const { styleLoaders } = require('./styleLoaders')
-const { happyLoaders, happyPlugins } = require('./happypacks')
+const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -177,7 +177,7 @@ const webpackConfig = merge(baseWebpackConfig, {
           resource &&
           /\.js$/.test(resource) &&
           resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
-          config.customed.webpack.vendor.every(m => resource.indexOf(m) < 0)
+          config.build.vendor.every(m => resource.indexOf(m) < 0)
         )
       },
     }),

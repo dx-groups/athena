@@ -2,15 +2,6 @@
   "compact": "true",
   "presets": [
     "env",
-    "stage-0",
-    "react"
-  ],
-  "plugins": [
-    "transform-runtime"
-  ],
-  "env": {
-    "test": {
-      "plugins": [ "istanbul" ]
-    }
-  }
+    "stage-0"
+  ]
 }

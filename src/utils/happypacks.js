@@ -1,8 +1,8 @@
 const autoprefixer = require('autoprefixer')
 const HappyPack = require('happypack')
 const os = require('os')
-const paths = require('./paths')
-const config = require('./index')
+const paths = require('../config/paths')
+const config = require('../config/index')
 
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 

@@ -1,5 +1,5 @@
 const autoprefixer = require('autoprefixer')
-const config = require('./index')
+const config = require('../config/index')
 
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.

@@ -9,7 +9,11 @@ module.exports = {
         'react-dom': 'ReactDOM',
       },
     },
-    vendor: []
+    vendor: [],
+    dll: [
+      'react',
+      'react-dom',
+    ],
   },
   proxy: {}
 }

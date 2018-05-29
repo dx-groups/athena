@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
@@ -16,7 +17,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 // const { styleLoaders } = require('./styleLoaders')
-const { happyLoaders, happyPlugins } = require('./happypacks')
+const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -85,11 +86,25 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(env.raw),
+  ]).concat(config.dev.dll.length > 0 ? [
+    new webpack.DllReferencePlugin({
+      manifest: require(paths.appDllManifest),
+    }),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
     }),
+    new AddAssetHtmlPlugin({
+      filepath: path.resolve(paths.appBuild, 'static/js/*-dll.*.js'),
+    }),
+  ] : [
+    // Generates an `index.html` file with the <script> injected.
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+    }),
+  ]).concat([
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example:
