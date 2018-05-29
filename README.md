@@ -128,3 +128,13 @@ eslint 的规则可以在项目根目录下创建 `.eslintrc` 或者 `.eslintrc.
 
 stylelint 的规则可以在项目根目录下创建 `.stylelintrc` 中配置
 
+## html 模板参考
+
+有时候需要在 html 中根据不同的运行环境添加不同的脚本或标签，可以借助模板语法，并根据 `htmlWebpackPlugin.options.minify` 的值来判断处理，比如：
+
+```html
+<% if (htmlWebpackPlugin.options.minify) { %>
+  <script defer src="//cdn.bootcss.com/react/16.2.0/umd/react.production.min.js"></script>
+  <script defer src="//cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
+<% } %>
+```

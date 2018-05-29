@@ -9,7 +9,7 @@
     "start": "node ../../bin/athena.js start",
     "build": "ATHENA_ENV_BUILD_ENV=test node ../../bin/athena.js build",
     "lint": "node ../../bin/athena.js lint src",
-    "lint": "node ../../bin/athena.js lint-fix src"
+    "lint-fix": "node ../../bin/athena.js lint-fix src"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",
