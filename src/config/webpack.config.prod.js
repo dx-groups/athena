@@ -15,7 +15,7 @@ const paths = require('./paths')
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
 const baseWebpackConfig = require('./webpack.base.conf')
-// const { styleLoaders } = require('./styleLoaders')
+// const { generalLoaders } = require('../utils/generalpacks')
 const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -63,6 +63,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         .replace(/\\/g, '/'),
   },
   module: {
+    // rules: generalLoaders({ extract: true, isProduction: true }),
     rules: happyLoaders({ extract: true, isProduction: true }),
   },
   plugins: happyPlugins({ extract: true, isProduction: true }).concat([
