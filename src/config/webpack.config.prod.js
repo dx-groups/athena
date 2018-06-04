@@ -97,7 +97,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new PreloadWebpackPlugin({
       rel: 'preload',
       as: 'script',
-      include: 'all',
+      include: 'allChunks',
       fileBlacklist: [/\.(css|map)$/, /base?.+/],
     }),
     // Makes some environment variables available to the JS code, for example:
@@ -195,6 +195,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: 'manifest',
       chunks: ['vendor'],
     }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
   ]),
 }, config.customed.webpack.prod)
 
