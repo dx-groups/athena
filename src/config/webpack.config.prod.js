@@ -6,6 +6,7 @@ const merge = require('webpack-merge')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
@@ -92,6 +93,12 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     new ScriptExtHtmlPlugin({
       defaultAttribute: 'defer',
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      as: 'script',
+      include: 'all',
+      fileBlacklist: [/\.(css|map)$/, /base?.+/],
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
