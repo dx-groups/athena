@@ -50,7 +50,7 @@ function loaders(options) {
           compact: options.isProduction,
           highlightCode: true,
           presets: [
-            '@babel/preset-env',
+            ['@babel/preset-env', { modules: false }],
             ['@babel/preset-stage-0', { decoratorsLegacy: true }],
             '@babel/preset-react',
           ],

@@ -20,6 +20,8 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const { generalLoaders } = require('../utils/generalpacks')
 // const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
+process.traceDeprecation = true
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath
@@ -36,6 +38,49 @@ const env = getClientEnvironment(publicUrl)
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error('Production builds must have NODE_ENV=production.')
 }
+
+
+const vendorChunks = config.build.vendor
+  .reduce((a, c) => ({
+    ...a,
+    [c]: {
+      name: c,
+      chunks: 'all',
+      minChunks: 1,
+      priority: -5,
+      // reuseExistingChunk: true,
+      test(module) {
+        // any required modules inside node_modules are extracted to vendor
+        const { resource } = module
+        return (
+          resource &&
+          /\.js$/.test(resource) &&
+          resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
+          resource.indexOf(c) >= 0
+        )
+      },
+    },
+  }), {})
+// const vendorChunks = {
+//     [config.build.vendor.join('-')]: {
+//       name: config.build.vendor.join('-'),
+//       chunks: 'all',
+//       minChunks: 1,
+//       priority: -5,
+//       // reuseExistingChunk: true,
+//       test(module) {
+//         // any required modules inside node_modules are extracted to vendor
+//         const { resource } = module
+//         return (
+//           resource &&
+//           /\.js$/.test(resource) &&
+//           resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
+//           config.build.vendor.some(m => resource.indexOf(m) >= 0)
+//         )
+//       }
+//     }
+//   }
+
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -111,7 +156,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // extract CSS into separate files
     new MiniCssExtractPlugin({
       filename: config.build.cssFilename,
-      chunkFilename: config.build.cssChunkFilename,
+      // chunkFilename: config.build.cssChunkFilename,
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
@@ -159,39 +204,39 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
   ],
   optimization: {
+    // Automatically split vendor and commons
+    // https://twitter.com/wSokra/status/969633336732905474
+    // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
     splitChunks: {
-      name: 'vendor',
-      chunks: 'all',
+      // name: 'vendor',
       cacheGroups: {
         default: {
-          name: 'vendor',
-          chunks: 'all',
-          // minChunks: Infinity // 随着入口 chunk 越来越多，这个配置保证没其它的模块会打包进公共 chunk
-          // minChunks(module) {
-          //   // any required modules inside node_modules are extracted to vendor
-          //   const { resource } = module
-          //   // console.log('** vendor **', resource)
-          //   return (
-          //     resource &&
-          //     /\.js$/.test(resource) &&
-          //     resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
-          //     config.build.vendor.every(m => resource.indexOf(m) < 0)
-          //   )
-          // },
+          chunks: 'initial',
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
         },
         vendor: {
           name: 'vendor',
-          chunks: 'initial',
-          priority: -10,
-          reuseExistingChunk: false,
-          test: /node_modules\/(.*)\.js/,
+          chunks: 'all',
+          // reuseExistingChunk: true,
+          test(module) {
+            // any required modules inside node_modules are extracted to vendor
+            const { resource } = module
+            // console.log('** vendor **', resource)
+            return (
+              resource &&
+              /\.js$/.test(resource) &&
+              resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
+              config.build.vendor.every(m => resource.indexOf(m) < 0)
+            )
+          },
         },
+        ...vendorChunks,
         styles: {
           name: 'styles',
           test: /\.(less|css)$/,
           chunks: 'all',
-          minChunks: 1,
-          reuseExistingChunk: true,
           enforce: true,
         },
       },
