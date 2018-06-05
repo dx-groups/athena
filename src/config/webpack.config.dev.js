@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin')
 const WatchMissingNodeModulesPlugin = require('../utils/react-dev/WatchMissingNodeModulesPlugin')
-// const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 const { getClientEnvironment } = require('./env')
@@ -87,20 +87,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   // plugins: happyPlugins({ extract: false, isProduction: false }).concat(
   plugins: (
-    // config.dev.dll.length > 0 ? [
-    //   new webpack.DllReferencePlugin({
-    //     manifest: require(paths.appDllManifest),
-    //   }),
-    //   // Generates an `index.html` file with the <script> injected.
-    //   new HtmlWebpackPlugin({
-    //     inject: true,
-    //     template: paths.appHtml,
-    //   }),
-    //   new AddAssetHtmlPlugin({
-    //     filepath: path.resolve(paths.appBuild, 'static/js/*-dll.*.js'),
-    //   }),
-    // ] : [
-    [
+    config.dev.dll.length > 0 ? [
+      new webpack.DllReferencePlugin({
+        manifest: require(paths.appDllManifest),
+      }),
+      // Generates an `index.html` file with the <script> injected.
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: paths.appHtml,
+      }),
+      new AddAssetHtmlPlugin({
+        filepath: path.resolve(paths.appBuild, 'static/js/*-dll.*.js'),
+      }),
+    ] : [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin({
         inject: true,

@@ -1,4 +1,3 @@
-const autoprefixer = require('autoprefixer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const paths = require('../config/paths')
 const config = require('../config/index')
@@ -15,7 +14,7 @@ const postcssLoader = {
     plugins: () => [
       require('postcss-flexbugs-fixes'),
       // require('precss'),
-      autoprefixer({
+      require('autoprefixer')({
         browsers: [
           '>1%',
           'last 4 versions',

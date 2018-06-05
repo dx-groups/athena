@@ -20,7 +20,7 @@ const webpack = require('webpack')
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles')
 const paths = require('./config/paths')
 const config = require('./config')
-// const { ensureDll } = require('./utils/createDll')
+const { ensureDll } = require('./utils/createDll')
 
 const useYarn = fs.existsSync(paths.yarnLockFile)
 const isInteractive = process.stdout.isTTY
@@ -30,15 +30,13 @@ if (!checkRequiredFiles([paths.appHtml, config.entry])) {
   process.exit(1)
 }
 
-// if (config.dev.dll.length > 0) {
-//   ensureDll(() => {
-//     start()
-//   })
-// } else {
-//   start()
-// }
-
-start()
+if (config.dev.dll.length > 0) {
+  ensureDll(() => {
+    start()
+  })
+} else {
+  start()
+}
 
 function createNotifierCallback() {
   const notifier = require('node-notifier')
