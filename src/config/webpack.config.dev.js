@@ -9,6 +9,7 @@ const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin'
 const WatchMissingNodeModulesPlugin = require('../utils/react-dev/WatchMissingNodeModulesPlugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
+// const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
@@ -138,6 +139,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       fileName: 'asset-manifest.json',
       publicPath: config.dev.assetsPublicPath,
     }),
+    // Warns when your bundle contains multiple versions of the same package
+    // new DuplicatePackageCheckerPlugin(),
 
     // new StyleLintPlugin({
     //   files: ['src/**/*.less', 'src/**/*.css'],

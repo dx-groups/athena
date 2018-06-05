@@ -8,6 +8,7 @@ const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+// const PrepackWebpackPlugin = require('prepack-webpack-plugin').default
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -201,7 +202,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    // split vendor js into its own file
+    // To make JavaScript code run faster
+    // new PrepackWebpackPlugin()
   ],
   optimization: {
     // Automatically split vendor and commons
