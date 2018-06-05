@@ -3,7 +3,7 @@ const path = require('path')
 const paths = require('./paths')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
+const ModuleScopePlugin = require('../utils/react-dev/ModuleScopePlugin')
 
 module.exports = {
   context: paths.appDirectory,
@@ -22,7 +22,14 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: ['.js', '.jsx', '.json'],
-    alias: {},
+    alias: {
+      // @remove-on-eject-begin
+      // Resolve Babel runtime relative to react-scripts.
+      // It usually still works on npm 3 without this but it would be
+      // unfortunate to rely on, as react-scripts could be symlinked,
+      // and thus @babel/runtime might not be resolvable from the source.
+      // '@babel/runtime': path.dirname(require.resolve('@babel/runtime/package.json')),
+    },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.

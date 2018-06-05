@@ -67,7 +67,11 @@ module.exports = {
     assetsRoot: resolveApp('dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: customedConfig.publicPath || '/',
+
+    jsFilename: 'static/js/[name].[chunkhash:8].js',
+    jsChunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
     cssFilename: 'static/css/[name].[contenthash:8].css',
+    cssChunkFilename: 'static/js/[name].[chunkhash:8].chunk.css',
 
     // https://webpack.js.org/configuration/devtool/#production
     devtool: 'source-map',

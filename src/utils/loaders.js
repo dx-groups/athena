@@ -1,25 +1,9 @@
 const autoprefixer = require('autoprefixer')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const paths = require('../config/paths')
 const config = require('../config/index')
 
-// Some apps do not use client-side routing with pushState.
-// For these, "homepage" can be set to "." to enable relative asset paths.
-const shouldUseRelativeAssetPaths = config.build.assetsPublicPath === './'
-
-// ExtractTextPlugin expects the build output to be flat.
-// (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
-// However, our output is structured with css, js and media folders.
-// To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ? // Making sure that the publicPath goes back to to build folder.
-  {
-    publicPath: Array(config.build.cssFilename.split('/').length)
-      .join('../'),
-  }
-  : {}
-
-
-const styleLoader = require.resolve('style-loader')
+// const styleLoader = require.resolve('style-loader')
 const lessLoader = require.resolve('less-loader')
 const postcssLoader = {
   loader: 'postcss-loader',
@@ -48,29 +32,36 @@ const postcssLoader = {
 function loaders(options) {
   options = options || {}
 
+  const styleLoader = options.extract ? MiniCssExtractPlugin.loader : require.resolve('style-loader')
   const LoaderRules = {
     babel: [
+      // This loader parallelizes code compilation, it is optional but
+      // improves compile time on larger projects
+      require.resolve('thread-loader'),
       {
         loader: require.resolve('babel-loader'),
         options: {
+          // @remove-on-eject-begin
+          babelrc: false,
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
           cacheDirectory: !options.isProduction,
           compact: options.isProduction,
+          highlightCode: true,
           presets: [
-            'env',
-            'stage-0',
-            'react',
+            '@babel/preset-env',
+            ['@babel/preset-stage-0', { decoratorsLegacy: true }],
+            '@babel/preset-react',
           ],
-          plugins: [
-            'transform-runtime',
-          ],
-          env: {
-            test: {
-              plugins: ['istanbul'],
-            },
-          },
+          // plugins: [
+          //   '@babel/plugin-transform-runtime',
+          // ],
+          // env: {
+          //   test: {
+          //     plugins: ['istanbul'],
+          //   },
+          // },
           ...config.customed.babel,
         },
       },
@@ -120,14 +111,7 @@ function loaders(options) {
 
   // generate loader string to be used with extract text plugin
   function generateLoaders(loader) {
-    let loaders = LoaderRules[loader]
-
-    // Extract CSS when that option is specified
-    // (which is the case during production build)
-    if (options.extract && loader !== 'babel') {
-      loaders = loaders.slice(1)
-    }
-
+    const loaders = LoaderRules[loader]
     return loaders
   }
 
@@ -155,8 +139,6 @@ const INCLUDES = {
 }
 
 module.exports = {
-  styleLoader,
-  extractTextPluginOptions,
   loaders,
   TESTRES,
   INCLUDES,

@@ -5,18 +5,22 @@ const merge = require('webpack-merge')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin')
+const WatchMissingNodeModulesPlugin = require('../utils/react-dev/WatchMissingNodeModulesPlugin')
+// const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
 const paths = require('./paths')
 const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
-const StyleLintPlugin = require('stylelint-webpack-plugin')
+// const StyleLintPlugin = require('stylelint-webpack-plugin')
 
-const { happyLoaders, happyPlugins } = require('../utils/happypacks')
+const { generalLoaders } = require('../utils/generalpacks')
+// const { happyLoaders, happyPlugins } = require('../utils/happypacks')
+
+process.traceDeprecation = true
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -29,6 +33,7 @@ const env = getClientEnvironment(publicUrl)
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
 const devWebpackConfig = merge(baseWebpackConfig, {
+  mode: 'development',
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: config.dev.devtool,
@@ -77,35 +82,36 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
 
   module: {
-    rules: happyLoaders({ extract: false, isProduction: false }),
+    rules: generalLoaders({ extract: false, isProduction: false }),
+    // rules: happyLoaders({ extract: false, isProduction: false }),
   },
-  plugins: happyPlugins({ extract: false, isProduction: false }).concat([
+  // plugins: happyPlugins({ extract: false, isProduction: false }).concat(
+  plugins: (
+    // config.dev.dll.length > 0 ? [
+    //   new webpack.DllReferencePlugin({
+    //     manifest: require(paths.appDllManifest),
+    //   }),
+    //   // Generates an `index.html` file with the <script> injected.
+    //   new HtmlWebpackPlugin({
+    //     inject: true,
+    //     template: paths.appHtml,
+    //   }),
+    //   new AddAssetHtmlPlugin({
+    //     filepath: path.resolve(paths.appBuild, 'static/js/*-dll.*.js'),
+    //   }),
+    // ] : [
+    [
+      // Generates an `index.html` file with the <script> injected.
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: paths.appHtml,
+      }),
+    ]).concat([
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(env.raw),
-  ]).concat(config.dev.dll.length > 0 ? [
-    new webpack.DllReferencePlugin({
-      manifest: require(paths.appDllManifest),
-    }),
-    // Generates an `index.html` file with the <script> injected.
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appHtml,
-    }),
-    new AddAssetHtmlPlugin({
-      filepath: path.resolve(paths.appBuild, 'static/js/*-dll.*.js'),
-    }),
-  ] : [
-    // Generates an `index.html` file with the <script> injected.
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appHtml,
-    }),
-  ]).concat([
-    // Add module names to factory functions so they appear in browser profiler.
-    new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
@@ -113,12 +119,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
-    // See https://github.com/facebookincubator/create-react-app/issues/240
+    // See https://github.com/facebook/create-react-app/issues/240
     new CaseSensitivePathsPlugin(),
     // If you require a missing module and then `npm install` it, you still have
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
-    // See https://github.com/facebookincubator/create-react-app/issues/186
+    // See https://github.com/facebook/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
@@ -126,10 +132,30 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new StyleLintPlugin({
-      files: ['src/**/*.less', 'src/**/*.css'],
+    // Generate a manifest file which contains a mapping of all asset filenames
+    // to their corresponding output file so that tools can pick it up without
+    // having to parse `index.html`.
+    new ManifestPlugin({
+      fileName: 'asset-manifest.json',
+      publicPath: config.dev.assetsPublicPath,
     }),
+
+    // new StyleLintPlugin({
+    //   files: ['src/**/*.less', 'src/**/*.css'],
+    // }),
   ]),
+  optimization: {
+    // Automatically split vendor and commons
+    // https://twitter.com/wSokra/status/969633336732905474
+    // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+    splitChunks: {
+      chunks: 'all',
+      name: 'vendors',
+    },
+    // Keep the runtime chunk seperated to enable long term caching
+    // https://twitter.com/wSokra/status/969679223278505985
+    runtimeChunk: true,
+  },
   // Turn off performance hints during development because we don't do any
   // splitting or minification in interest of speed. These warnings become
   // cumbersome.

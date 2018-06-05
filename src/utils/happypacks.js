@@ -2,8 +2,6 @@ const HappyPack = require('happypack')
 const os = require('os')
 
 const {
-  styleLoader,
-  extractTextPluginOptions,
   loaders: customLoaders,
   INCLUDES,
   TESTRES,
@@ -11,9 +9,7 @@ const {
 
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length })
 
-function customHappyLoaders(options) {
-  options = options || {}
-
+function customHappyLoaders() {
   const HappyLoaderRules = {
     babel: ['happypack/loader?id=babel'],
     css: ['happypack/loader?id=css'],
@@ -24,19 +20,7 @@ function customHappyLoaders(options) {
   // generate happy loader string to be used with extract text plugin
   function generateHappyLoaders(loader) {
     const loaders = HappyLoaderRules[loader]
-
-    // Extract CSS when that option is specified
-    // (which is the case during production build)
-    if (options.extract && loader !== 'babel') {
-      const ExtractTextPlugin = require('extract-text-webpack-plugin')
-      return ExtractTextPlugin.extract({
-        fallback: styleLoader,
-        use: loaders,
-        ...extractTextPluginOptions,
-      })
-    } else {
-      return loaders
-    }
+    return loaders
   }
 
   return {

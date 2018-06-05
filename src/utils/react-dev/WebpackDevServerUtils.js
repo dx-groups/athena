@@ -81,7 +81,7 @@ function prepareUrls(protocol, host, port) {
   }
 }
 
-function printInstructions(appName, urls) {
+function printInstructions(appName, urls, useYarn) {
   console.log()
   console.log(`You can now view ${chalk.bold(appName)} in the browser.`)
   console.log()
@@ -96,7 +96,7 @@ function printInstructions(appName, urls) {
   console.log()
   console.log('Note that the development build is not optimized.')
   console.log('To create a production build, use ' +
-    `${chalk.bold(chalk.cyan('athena build'))}.`)
+    `${chalk.cyan(`${useYarn ? 'yarn' : 'npm run'} build`)}.`)
   console.log()
 }
 
@@ -118,7 +118,7 @@ function createCompiler(webpack, config, appName, urls, useYarn) {
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
   // bundle, so if you refresh, it'll wait instead of serving the old one.
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
-  compiler.plugin('invalid', () => {
+  compiler.hooks.invalid.tap('invalid', () => {
     if (isInteractive) {
       clearConsole()
     }
@@ -129,7 +129,7 @@ function createCompiler(webpack, config, appName, urls, useYarn) {
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.plugin('done', (stats) => {
+  compiler.hooks.done.tap('done', (stats) => {
     if (isInteractive) {
       clearConsole()
     }

@@ -1,23 +1,24 @@
-
-
 const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
+const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const paths = require('./paths')
 const { getClientEnvironment } = require('./env')
 const config = require('./index')
 const baseWebpackConfig = require('./webpack.base.conf')
-// const { generalLoaders } = require('../utils/generalpacks')
-const { happyLoaders, happyPlugins } = require('../utils/happypacks')
+const { generalLoaders } = require('../utils/generalpacks')
+// const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -40,6 +41,7 @@ if (env.stringified['process.env'].NODE_ENV !== '"production"') {
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 const webpackConfig = merge(baseWebpackConfig, {
+  mode: 'production',
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -53,8 +55,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
-    filename: 'static/js/[name].[chunkhash:8].js',
-    chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
+    filename: config.build.jsFilename,
+    chunkFilename: config.build.jsChunkFilename,
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: config.build.assetsPublicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
@@ -64,16 +66,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         .replace(/\\/g, '/'),
   },
   module: {
-    // rules: generalLoaders({ extract: true, isProduction: true }),
-    rules: happyLoaders({ extract: true, isProduction: true }),
+    rules: generalLoaders({ extract: true, isProduction: true }),
+    // rules: happyLoaders({ extract: true, isProduction: true }),
   },
-  plugins: happyPlugins({ extract: true, isProduction: true }).concat([
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In production, it will be an empty string unless you specify "homepage"
-    // in `package.json`, in which case it will be the pathname of that URL.
-    new InterpolateHtmlPlugin(env.raw),
+  plugins: [
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
@@ -100,42 +96,29 @@ const webpackConfig = merge(baseWebpackConfig, {
       include: 'allChunks',
       fileBlacklist: [/\.(css|map)$/, /base?.+/],
     }),
+    // Makes some environment variables available in index.html.
+    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    // In production, it will be an empty string unless you specify "homepage"
+    // in `package.json`, in which case it will be the pathname of that URL.
+    new InterpolateHtmlPlugin(env.raw),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
-    // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        // Display warnings when dropping unreachable code or unused declarations etc
-        warnings: false,
-        drop_console: false,
-        // remove debugger; statements
-        drop_debugger: true,
-        // Disabled because of an issue with Uglify breaking seemingly valid code:
-        // https://github.com/facebookincubator/create-react-app/issues/2376
-        // Pending further investigation:
-        // https://github.com/mishoo/UglifyJS2/issues/2011
-        comparisons: false,
-      },
-      output: {
-        comments: false,
-        // Turned on because emoji and regex is not minified properly using default
-        // https://github.com/facebookincubator/create-react-app/issues/2488
-        ascii_only: true,
-      },
-      sourceMap: true,
-    }),
-    // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
-    new ExtractTextPlugin({
+
+    // extract CSS into separate files
+    new MiniCssExtractPlugin({
       filename: config.build.cssFilename,
+      chunkFilename: config.build.cssChunkFilename,
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
+      publicPath: config.build.assetsPublicPath,
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
@@ -174,29 +157,58 @@ const webpackConfig = merge(baseWebpackConfig, {
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
+  ],
+  optimization: {
+    splitChunks: {
       name: 'vendor',
-      // minChunks: Infinity // 随着入口 chunk 越来越多，这个配置保证没其它的模块会打包进公共 chunk
-      minChunks(module) {
-        // any required modules inside node_modules are extracted to vendor
-        const { resource } = module
-        // console.log('** vendor **', resource)
-        return (
-          resource &&
-          /\.js$/.test(resource) &&
-          resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
-          config.build.vendor.every(m => resource.indexOf(m) < 0)
-        )
+      chunks: 'all',
+      cacheGroups: {
+        default: {
+          name: 'vendor',
+          chunks: 'all',
+          // minChunks: Infinity // 随着入口 chunk 越来越多，这个配置保证没其它的模块会打包进公共 chunk
+          // minChunks(module) {
+          //   // any required modules inside node_modules are extracted to vendor
+          //   const { resource } = module
+          //   // console.log('** vendor **', resource)
+          //   return (
+          //     resource &&
+          //     /\.js$/.test(resource) &&
+          //     resource.indexOf(paths.resolveApp('node_modules')) >= 0 &&
+          //     config.build.vendor.every(m => resource.indexOf(m) < 0)
+          //   )
+          // },
+        },
+        vendor: {
+          name: 'vendor',
+          chunks: 'initial',
+          priority: -10,
+          reuseExistingChunk: false,
+          test: /node_modules\/(.*)\.js/,
+        },
+        styles: {
+          name: 'styles',
+          test: /\.(less|css)$/,
+          chunks: 'all',
+          minChunks: 1,
+          reuseExistingChunk: true,
+          enforce: true,
+        },
       },
-    }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      chunks: ['vendor'],
-    }),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-  ]),
+    },
+    // Keep the runtime chunk seperated to enable long term caching
+    // https://twitter.com/wSokra/status/969679223278505985
+    runtimeChunk: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({}),
+    ],
+    concatenateModules: true, // ModuleConcatenationPlugin
+  },
 }, config.customed.webpack.prod)
 
 if (config.build.bundleAnalyzerReport) {
