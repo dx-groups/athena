@@ -1,26 +1,33 @@
 :global { /* stylelint-disable-line */
-  .App {
+  .app {
     text-align: center;
-  }
+    width: 100%;
+    padding: 60px 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0px 0px 10px 0px #f0f1f2;
+    background: linear-gradient(#737b80 0%, #000c1a 100%);
+    animation: gradientChange 2s infinite;
 
-  .App-logo {
-    animation: appLoginSpin infinite 20s linear;
-    height: 80px;
-  }
+    &_logo {
+      animation: appLoginSpin infinite 20s linear;
+      height: 80px;
+    }
 
-  .App-header {
-    background-color: #222222;
-    height: 150px;
-    padding: 20px;
-    color: white;
-  }
+    &_header {
+      height: 150px;
+      padding: 20px;
+      color: white;
+    }
 
-  .App-title {
-    font-size: 1.5em;
-  }
-
-  .App-intro {
-    font-size: large;
+    &_intro {
+      font-size: large;
+      padding: 60px;
+      color: yellow;
+      border: 1px dotted #f0f1f2;
+      margin: 30px 30px 0;
+    }
   }
 }
 

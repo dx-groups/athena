@@ -150,4 +150,4 @@ const App = () => <div>Hello World!</div>
 export default hot(module)(App)
 ```
 
-也可参考 [示例程序](./examples/demo/src/index.js)
+也可参考 [示例程序](./examples/demo/src/App.js)
