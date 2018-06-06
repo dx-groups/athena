@@ -16,12 +16,12 @@ const config = require('./index')
 const paths = require('./paths')
 const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
-// const StyleLintPlugin = require('stylelint-webpack-plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 const { generalLoaders } = require('../utils/generalpacks')
 // const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
-// process.traceDeprecation = true
+process.traceDeprecation = true
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -142,9 +142,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // Warns when your bundle contains multiple versions of the same package
     // new DuplicatePackageCheckerPlugin(),
 
-    // new StyleLintPlugin({
-    //   files: ['src/**/*.less', 'src/**/*.css'],
-    // }),
+    new StyleLintPlugin({
+      context: paths.appSrc,
+      files: ['**/*.less', '**/*.css'],
+    }),
   ]),
   optimization: {
     // Automatically split vendor and commons

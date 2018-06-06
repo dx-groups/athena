@@ -58,12 +58,14 @@ switch (script) {
     console.log(`Starting lint ${chalk.cyan(chalk.bold(args))} ...\n`)
     const esArgs = args.join(' ')
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
-    exec(`eslint ${esArgs} && stylelint "${styleArgs}"`, (error) => {
+    exec(`eslint ${esArgs} && stylelint "${styleArgs}"`, (error, stdout) => {
       if (error) {
-        console.error(`Athena lint error: ${error}`)
+        console.error(`Athena lint error: ${chalk.red(error)}`)
+        console.log(chalk.red(stdout))
         // return;
+      } else {
+        console.log('Athena lint successfully!')
       }
-      console.log('Athena lint finished')
     })
     break
   }
@@ -71,12 +73,14 @@ switch (script) {
     console.log(`Starting lint-fix ${chalk.cyan(chalk.bold(args))} ...\n`)
     const esArgs = args.join(' ')
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
-    exec(`eslint --fix ${esArgs} && stylelint --fix "${styleArgs}"`, (error) => {
+    exec(`eslint --fix ${esArgs} && stylelint --fix "${styleArgs}"`, (error, stdout) => {
       if (error) {
-        console.error(`Athena lint-fix error: ${error}`)
+        console.error(`Athena lint-fix error: ${chalk.red(error)}`)
+        console.log(chalk.red(stdout))
         // return;
+      } else {
+        console.log('Athena lint-fix successfully!')
       }
-      console.log('Athena lint finished')
     })
     break
   }
