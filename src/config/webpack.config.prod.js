@@ -138,7 +138,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new PreloadWebpackPlugin({
       rel: 'preload',
       as: 'script',
-      include: 'allChunks',
+      include: 'initial',
       fileBlacklist: [/\.(css|map)$/, /base?.+/],
     }),
     // Makes some environment variables available in index.html.
