@@ -21,7 +21,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const { generalLoaders } = require('../utils/generalpacks')
 // const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
-process.traceDeprecation = true
+// process.traceDeprecation = true
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.

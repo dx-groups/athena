@@ -21,7 +21,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const { generalLoaders } = require('../utils/generalpacks')
 // const { happyLoaders, happyPlugins } = require('../utils/happypacks')
 
-process.traceDeprecation = true
+// process.traceDeprecation = true
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
