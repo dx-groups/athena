@@ -1,5 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
+const glob = require('glob')
 const webpack = require('webpack')
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 const webpackDllConfig = require('../config/webpack.config.dll')
@@ -7,6 +8,7 @@ const paths = require('../config/paths')
 
 exports.ensureDll = function ensureDll(cb) {
   const exists = fs.existsSync(paths.appDllManifest)
+    && glob.sync('static/js/*-dll.*.js', { cwd: paths.appBuild }).length > 0
   if (exists) {
     cb()
   } else {
@@ -15,7 +17,7 @@ exports.ensureDll = function ensureDll(cb) {
 }
 
 function createDll(cb) {
-  console.log('Creating an split dll bundles for dev...')
+  console.log('Creating an split dll bundles for development...\n')
 
   const compiler = webpack(webpackDllConfig)
   compiler.run((err, stats) => {

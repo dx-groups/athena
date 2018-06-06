@@ -53,9 +53,10 @@ function loaders(options) {
             ['@babel/preset-stage-0', { decoratorsLegacy: true }],
             '@babel/preset-react',
           ],
-          // plugins: [
-          //   '@babel/plugin-transform-runtime',
-          // ],
+          plugins: [
+            // '@babel/plugin-transform-runtime',
+            'react-hot-loader/babel',
+          ],
           // env: {
           //   test: {
           //     plugins: ['istanbul'],

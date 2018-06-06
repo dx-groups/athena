@@ -48,7 +48,8 @@ module.exports = {
   webpack: {
     dev: {},                  // 开发时用到的 webpack 配置
     prod: {},                 // 构建时用到的 webpack 配置
-    vendor: [],               // 构建时，CommonsChunkPlugin 插件需要忽略的模块名
+    vendor: [],               // 构建时，splitChunks 插件独立打包的模块
+    dll: []                   // 开发时 dll 列表
   },
   proxy: {}                   // 代理配置
 }
@@ -58,22 +59,18 @@ module.exports = {
 
 ```
 {
+  babelrc: false,
+  highlightCode: true,
   presets: [
-    'env',
-    'stage-0',
-    'react',
+    ['@babel/preset-env', { modules: false }],
+    ['@babel/preset-stage-0', { decoratorsLegacy: true }],
+    '@babel/preset-react',
   ],
   plugins: [
-    'transform-runtime',
+    'react-hot-loader/babel',
   ],
-  env: {
-    test: {
-      plugins: ['istanbul'],
-    },
-  }
 }
 ```
-
 
 ## 环境变量
 
@@ -138,3 +135,19 @@ stylelint 的规则可以在项目根目录下创建 `.stylelintrc` 中配置
   <script defer src="//cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.production.min.js"></script>
 <% } %>
 ```
+
+## HMR
+
+开发时借助 [react-hot-loader](https://github.com/gaearon/react-hot-loader) 支持 HMR，只要在 App 文件中做如下处理即可
+
+```javascript
+// ./containers/App.js
+import React from 'react'
+import { hot } from 'react-hot-loader'
+
+const App = () => <div>Hello World!</div>
+
+export default hot(module)(App)
+```
+
+也可参考 [示例程序](./examples/demo/src/index.js)
