@@ -56,7 +56,7 @@ module.exports = {
     cacheBusting: true,
 
     // Set to `true` or `false` to always turn it on or off
-    showPageSkeleton: process.env.SKELETON
+    showPageSkeleton: process.env.SKELETON,
   },
 
   build: {
@@ -94,6 +94,5 @@ module.exports = {
 
   // Get custom config of service worker
   // { swSrc: '../src/service-worker.js'}
-  serviceWorker: customedConfig.serviceWorker
-
+  serviceWorker: customedConfig.serviceWorker,
 }
