@@ -51,13 +51,14 @@ module.exports = {
     vendor: [],               // 构建时，splitChunks 插件独立打包的模块
     dll: []                   // 开发时 dll 列表
   },
-  proxy: {}                   // 代理配置
+  proxy: {},                  // 代理配置
+  serviceWorker: {}           // service-worker配置
 }
 ```
 
 其中，babel 默认配置为
 
-```
+```javascript
 {
   babelrc: false,
   highlightCode: true,
@@ -69,6 +70,14 @@ module.exports = {
   plugins: [
     'react-hot-loader/babel',
   ],
+}
+```
+
+serviceWorker一般配置如下
+
+```javascript
+{
+  swSrc: path.resolve(__dirname, 'src/service-worker.js') // 项目目录下自建的service-worker文件
 }
 ```
 

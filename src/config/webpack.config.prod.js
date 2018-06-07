@@ -7,7 +7,6 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('../utils/react-dev/InterpolateHtmlPlugin')
-const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 // const PrepackWebpackPlugin = require('prepack-webpack-plugin').default
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -166,36 +165,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       fileName: 'asset-manifest.json',
       publicPath: config.build.assetsPublicPath,
     }),
-    // Generate a service worker script that will precache, and keep up to date,
-    // the HTML & assets that are part of the Webpack build.
-    new SWPrecacheWebpackPlugin({
-      // By default, a cache-busting query parameter is appended to requests
-      // used to populate the caches, to ensure the responses are fresh.
-      // If a URL is already hashed by Webpack, then there is no concern
-      // about it being stale, and the cache-busting can be skipped.
-      dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
-      logger(message) {
-        if (message.indexOf('Total precache size is') === 0) {
-          // This message occurs for every build and is a bit too noisy.
-          return
-        }
-        if (message.indexOf('Skipping static resource') === 0) {
-          // This message obscures real errors so we ignore it.
-          // https://github.com/facebookincubator/create-react-app/issues/2612
-          return
-        }
-        console.log(message)
-      },
-      minify: true,
-      // For unknown URLs, fallback to the index page
-      navigateFallback: `${publicUrl}/index.html`,
-      // Ignores URLs starting from /__ (useful for Firebase):
-      // https://github.com/facebookincubator/create-react-app/issues/2237#issuecomment-302693219
-      navigateFallbackWhitelist: [/^(?!\/__).*/],
-      // Don't precache sourcemaps (they're large) and build asset manifest:
-      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
-    }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
     // solution that requires the user to opt into importing specific locales.
@@ -267,6 +236,15 @@ if (config.build.bundleAnalyzerReport) {
 
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
+}
+
+if (config.serviceWorker) {
+  const WorkBoxPlugin = require('workbox-webpack-plugin')
+  const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
+
+  webpackConfig.plugins.push(new WorkBoxPlugin.InjectManifest({ swSrc: config.serviceWorker.swSrc }))
+
+  webpackConfig.plugins.push(new SwRegisterWebpackPlugin({ version: +new Date() }))
 }
 
 module.exports = webpackConfig

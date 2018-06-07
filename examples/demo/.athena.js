@@ -1,3 +1,4 @@
+const path = require('path')
 module.exports = {
   entry: 'src/index.js',
   babel: {},
@@ -15,5 +16,8 @@ module.exports = {
       'react-dom',
     ],
   },
-  proxy: {}
+  proxy: {},
+  serviceWorker: {
+    swSrc: path.resolve(__dirname, 'src/service-worker.js')
+  }
 }
