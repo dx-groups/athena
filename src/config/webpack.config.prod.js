@@ -173,6 +173,17 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // To make JavaScript code run faster
     // new PrepackWebpackPlugin()
+    new webpack.LoaderOptionsPlugin({
+      sourceMap: true,
+      minimize: true,
+      discardComments: {
+        removeAll: true,
+      },
+      options: {
+        context: __dirname,
+        output: config.output,
+      },
+    }),
   ],
   optimization: {
     // Automatically split vendor and commons
