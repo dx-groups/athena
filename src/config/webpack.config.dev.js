@@ -210,9 +210,10 @@ if (config.serviceWorker) {
   const WorkBoxPlugin = require('workbox-webpack-plugin')
   const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
 
-  devWebpackConfig.plugins.push(new WorkBoxPlugin.InjectManifest({ swSrc: config.serviceWorker.swSrc }))
-
-  devWebpackConfig.plugins.push(new SwRegisterWebpackPlugin({ version: +new Date() }))
+  devWebpackConfig.plugins.push(
+    new WorkBoxPlugin.InjectManifest({ swSrc: config.serviceWorker }),
+    new SwRegisterWebpackPlugin({ version: +new Date() }),
+  )
 }
 
 module.exports = devWebpackConfig
