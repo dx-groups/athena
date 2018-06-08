@@ -15,12 +15,12 @@ workbox.core.setCacheNameDetails({
 // sw-register网络请求优先
 workbox.routing.registerRoute(
   /\/sw-register\.js/,
-  workbox.strategies.networkOnly()
+  workbox.strategies.networkFirst()
 );
 
 // 缓存cdn数据
 workbox.routing.registerRoute(
-  new RegExp('http://cdn.bootcss.com.*'),
+  new RegExp('http(s?)://cdn.bootcss.com/*'),
   workbox.strategies.cacheFirst({
     plugins: [
       // 让匹配的请求符合开发者指定的条件的返回结果可以被缓存

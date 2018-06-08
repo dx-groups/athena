@@ -11,7 +11,7 @@ if (proxy && Object.keys(proxy).length === 0) {
 
 module.exports = {
   name: require(appPackageJson).name,
-  entry: customedConfig.entry ? resolveApp(customedConfig.entry) : paths.appIndexJs,
+  entry: resolveApp(customedConfig.entry || paths.appIndexJs),
   output: paths.appBuild,
 
   customed: {
@@ -93,6 +93,5 @@ module.exports = {
   },
 
   // Get custom config of service worker
-  // { swSrc: '../src/service-worker.js'}
-  serviceWorker: customedConfig.serviceWorker,
+  serviceWorker: resolveApp(customedConfig.serviceWorker || 'src/service-worker.js'),
 }

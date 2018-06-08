@@ -1,6 +1,6 @@
 {
   "name": "@dx-groups/athena",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "基于 webpack 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"

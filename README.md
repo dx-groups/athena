@@ -42,17 +42,17 @@ athena 默认会解析项目根目录下的 `.athena.js` 文件，并在构建�
 
 ```javascript
 module.exports = {
-  entry: '<src/index.js>',    // 项目的入口文件，默认为 'src/index.js'
-  publicPath: '</>',          // 项目发布路径，默认为根目录启动 '/'
-  babel: {},                  // babel 配置信息
+  entry: '<src/index.js>',                    // 项目的入口文件，默认为 'src/index.js'
+  publicPath: '</>',                          // 项目发布路径，默认为根目录启动 '/'
+  babel: {},                                  // babel 配置信息
   webpack: {
-    dev: {},                  // 开发时用到的 webpack 配置
-    prod: {},                 // 构建时用到的 webpack 配置
-    vendor: [],               // 构建时，splitChunks 插件独立打包的模块
-    dll: []                   // 开发时 dll 列表
+    dev: {},                                  // 开发时用到的 webpack 配置
+    prod: {},                                 // 构建时用到的 webpack 配置
+    vendor: [],                               // 构建时，splitChunks 插件独立打包的模块
+    dll: []                                   // 开发时 dll 列表
   },
-  proxy: {},                  // 代理配置
-  serviceWorker: {}           // service-worker配置
+  proxy: {},                                  // 代理配置
+  serviceWorker: '<src/service-worker.js>'    // service-worker配置
 }
 ```
 
@@ -73,13 +73,7 @@ module.exports = {
 }
 ```
 
-serviceWorker一般配置如下
-
-```javascript
-{
-  swSrc: path.resolve(__dirname, 'src/service-worker.js') // 项目目录下自建的service-worker文件
-}
-```
+service-worker 为项目注入了 PWA 的相关支持，默认实现采用 [Workbox API](https://developers.google.com/web/tools/workbox/)，可参考 [示例代码](./examples/demo/src/service-worker.js)
 
 ## 环境变量
 
