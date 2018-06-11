@@ -101,7 +101,7 @@ function loaders(options) {
           minimize: options.isProduction,
           sourceMap: true,
           modules: true,
-          localIdentName: '[folder]_[name]_[local]_[hash:base64:3]',
+          localIdentName: '[folder][name]_[local]_[hash:base64:3]',
         },
       },
       postcssLoader,

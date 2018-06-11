@@ -1,6 +1,8 @@
 
 const path = require('path')
+const webpack = require('webpack')
 const paths = require('./paths')
+const config = require('./index')
 
 const eslintFormatter = require('react-dev-utils/eslintFormatter')
 const ModuleScopePlugin = require('../utils/react-dev/ModuleScopePlugin')
@@ -144,4 +146,24 @@ module.exports = {
     tls: 'empty',
     child_process: 'empty',
   },
+
+  plugins: [
+    // Moment.js is an extremely popular library that bundles large locale files
+    // by default due to how Webpack interprets its code. This is a practical
+    // solution that requires the user to opt into importing specific locales.
+    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
+    // You can remove this if you don't use Moment.js:
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.LoaderOptionsPlugin({
+      sourceMap: true,
+      minimize: true,
+      discardComments: {
+        removeAll: true,
+      },
+      options: {
+        context: __dirname,
+        output: config.output,
+      },
+    }),
+  ],
 }

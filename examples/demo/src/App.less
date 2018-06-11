@@ -1,37 +1,42 @@
-:global { /* stylelint-disable-line */
-  .app {
-    text-align: center;
-    width: 100%;
-    padding: 60px 0;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: 0 0 10px 0 #f0f1f2;
-    background: linear-gradient(#737b80 0%, #000c1a 100%);
-    animation: gradientChange 2s infinite;
+.app {
+  text-align: center;
+  width: 100%;
+  padding: 60px 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 10px 0 #f0f1f2;
+  background: linear-gradient(#737b80 0%, #000c1a 100%);
+  animation: gradientChange 2s infinite;
 
-    &_logo {
+  &_header {
+    height: 150px;
+    padding: 20px;
+    color: white;
+
+    img {
       animation: appLoginSpin infinite 20s linear;
       height: 80px;
     }
 
-    &_header {
-      height: 150px;
-      padding: 20px;
-      color: white;
+    @keyframes appLoginSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
+  }
 
-    &_intro {
-      font-size: large;
-      padding: 60px;
-      color: yellow;
-      border: 1px dotted #f0f1f2;
-      margin: 30px 30px 0;
-    }
+  &_intro {
+    font-size: large;
+    padding: 60px;
+    color: yellow;
+    border: 1px dotted #f0f1f2;
+    margin: 30px 30px 0;
   }
 }
 
+/*
 @keyframes ~":global(appLoginSpin)" {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+*/

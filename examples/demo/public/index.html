@@ -3,9 +3,12 @@
 <head>
   <meta charset="utf-8">
   <link rel="dns-prefetch" href="//cdn.bootcss.com">
+
+  <% if (htmlWebpackPlugin.options.minify) { %>
   <!-- preload required js -->
   <link rel="preload" href="//cdn.bootcss.com/react/16.2.0/umd/react.production.min.js" as="script" />
   <link rel="preload" href="//cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.production.min.js" as="script" />
+  <% } %>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">

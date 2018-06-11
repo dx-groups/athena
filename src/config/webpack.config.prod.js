@@ -165,25 +165,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       fileName: 'asset-manifest.json',
       publicPath: config.build.assetsPublicPath,
     }),
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // To make JavaScript code run faster
     // new PrepackWebpackPlugin()
-    new webpack.LoaderOptionsPlugin({
-      sourceMap: true,
-      minimize: true,
-      discardComments: {
-        removeAll: true,
-      },
-      options: {
-        context: __dirname,
-        output: config.output,
-      },
-    }),
   ],
   optimization: {
     // Automatically split vendor and commons
@@ -254,7 +237,10 @@ if (config.serviceWorker) {
   const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
 
   webpackConfig.plugins.push(
-    new WorkBoxPlugin.InjectManifest({ swSrc: config.serviceWorker }),
+    new WorkBoxPlugin.InjectManifest({
+      swSrc: config.serviceWorker,
+      exclude: [/index\.html/],
+    }),
     new SwRegisterWebpackPlugin({ version: +new Date() }),
   )
 }

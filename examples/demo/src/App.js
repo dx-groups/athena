@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import logo from './logo.png';
-import './App.less';
+import styles from './App.less';
 
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <header className="app_header">
-          <img src={logo} className="app_logo" alt="logo" />
-          <h1 className="app_title">Hello, athena</h1>
+      <div className={styles.app}>
+        <header className={styles.app_header}>
+          <img src={logo} alt="logo" />
+          <h1>Hello, athena</h1>
         </header>
-        <p className="app_intro">
+        <p className={styles.app_intro}>
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
       </div>

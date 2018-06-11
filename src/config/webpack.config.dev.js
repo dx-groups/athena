@@ -126,12 +126,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebook/create-react-app/issues/186
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-    // Moment.js is an extremely popular library that bundles large locale files
-    // by default due to how Webpack interprets its code. This is a practical
-    // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
@@ -205,15 +199,5 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 //     noInfo: false,
 //   }))
 // }
-
-if (config.serviceWorker) {
-  const WorkBoxPlugin = require('workbox-webpack-plugin')
-  const SwRegisterWebpackPlugin = require('sw-register-webpack-plugin')
-
-  devWebpackConfig.plugins.push(
-    new WorkBoxPlugin.InjectManifest({ swSrc: config.serviceWorker }),
-    new SwRegisterWebpackPlugin({ version: +new Date() }),
-  )
-}
 
 module.exports = devWebpackConfig
