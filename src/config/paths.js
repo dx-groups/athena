@@ -52,7 +52,7 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  appDllManifest: path.resolve(__dirname, 'dll-manifest.json'),
+  appDllManifest: resolveApp('build/dll-manifest.json'),
   appDirectory,
   resolveApp,
   ensureSlash,
