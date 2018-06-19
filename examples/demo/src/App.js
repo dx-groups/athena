@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import axios from 'axios';
 import logo from './logo.png';
 import styles from './App.less';
 
 class App extends Component {
+  componentDidMount() {
+    axios.get('/api/user')
+      .then(res => {
+        console.log('*** res: ', res); // eslint-disable-line no-console
+      })
+      .catch(error => {
+        console.log('*** error: ', error); // eslint-disable-line no-console
+      });
+  }
+
   render() {
     return (
       <div className={styles.app}>

@@ -15,6 +15,6 @@ module.exports = {
       'react-dom',
     ],
   },
+  serviceWorker: 'src/service-worker.js',
   proxy: {},
-  serviceWorker: 'src/service-worker.js'
 }

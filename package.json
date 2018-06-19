@@ -1,6 +1,6 @@
 {
   "name": "@dx-groups/athena",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "基于 webpack 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"
@@ -85,6 +85,7 @@
     "update-notifier": "^2.5.0",
     "url-loader": "1.0.1",
     "webpack": "4.8.3",
+    "webpack-api-mocker": "^1.5.2",
     "webpack-bundle-analyzer": "2.13.1",
     "webpack-dev-server": "3.1.4",
     "webpack-jarvis": "^0.2.2",

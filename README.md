@@ -51,8 +51,8 @@ module.exports = {
     vendor: [],                               // 构建时，splitChunks 插件独立打包的模块
     dll: []                                   // 开发时 dll 列表
   },
-  proxy: {},                                  // 代理配置
   serviceWorker: '<src/service-worker.js>'    // service-worker配置
+  proxy: {},                                  // 代理配置
 }
 ```
 
@@ -154,3 +154,9 @@ export default hot(module)(App)
 ```
 
 也可参考 [示例程序](./examples/demo/src/App.js)
+
+## mock
+
+为了提升开发体验，除了提供 proxy 的功能外，对简单的接口，mock 工具在很多场景下都是更好的选择
+
+athena 默认集成了 webpack-api-mocker，并解析项目根目录下的 `.athena.mock.js` 文件，具体语法请参考 [webpack-api-mocker](https://github.com/jaywcjlove/webpack-api-mocker)
