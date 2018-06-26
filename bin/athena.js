@@ -5,7 +5,7 @@ const { fork, exec } = require('child_process')
 
 console.log()
 console.log(chalk.blue('Athena is running!'))
-console.log(chalk.blue('For further info, please visit https://github.com/elephant-fe/athena'))
+console.log(chalk.blue('For further info, please visit https://github.com/dx-groups/athena'))
 console.log()
 
 // Notify update when process exits

@@ -1,6 +1,6 @@
 {
   "name": "@dx-groups/athena",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "基于 webpack 的应用开发工具，添加灵活的配置选项及周边支持",
   "bin": {
     "athena": "./bin/athena.js"
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elephant-fe/athena.git"
+    "url": "git+https://github.com/dx-groups/athena.git"
   },
   "keywords": [
     "athena",
@@ -27,9 +27,9 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/elephant-fe/athena/issues"
+    "url": "https://github.com/dx-groups/athena/issues"
   },
-  "homepage": "https://github.com/elephant-fe/athena#readme",
+  "homepage": "https://github.com/dx-groups/athena#readme",
   "dependencies": {
     "@babel/cli": "^7.0.0-beta.49",
     "@babel/core": "^7.0.0-beta.49",

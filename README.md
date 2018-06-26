@@ -9,12 +9,12 @@
 
 [npm-image]: http://img.shields.io/npm/v/@dx-groups/athena.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/@dx-groups/athena
-[travis-image]: https://img.shields.io/travis/elephant-fe/@dx-groups/athena.svg?style=flat-square
-[travis-url]: https://travis-ci.org/elephant-fe/@dx-groups/athena
-[coveralls-image]: https://img.shields.io/coveralls/elephant-fe/@dx-groups/athena.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/elephant-fe/@dx-groups/athena?branch=master
-[gemnasium-image]: http://img.shields.io/gemnasium/elephant-fe/@dx-groups/athena.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/elephant-fe/@dx-groups/athena
+[travis-image]: https://img.shields.io/travis/dx-groups/@dx-groups/athena.svg?style=flat-square
+[travis-url]: https://travis-ci.org/dx-groups/@dx-groups/athena
+[coveralls-image]: https://img.shields.io/coveralls/dx-groups/@dx-groups/athena.svg?style=flat-square
+[coveralls-url]: https://coveralls.io/r/dx-groups/@dx-groups/athena?branch=master
+[gemnasium-image]: http://img.shields.io/gemnasium/dx-groups/@dx-groups/athena.svg?style=flat-square
+[gemnasium-url]: https://gemnasium.com/dx-groups/@dx-groups/athena
 [node-image]: https://img.shields.io/badge/node.js-%3E=_0.10-green.svg?style=flat-square
 [node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/@dx-groups/athena.svg?style=flat-square
