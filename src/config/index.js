@@ -15,8 +15,8 @@ module.exports = {
   output: paths.appBuild,
 
   customed: {
-    babel: customedConfig.babel,
-    webpack: customedConfig.webpack,
+    babel: customedConfig.babel || {},
+    webpack: customedConfig.webpack || {},
   },
 
   dev: {
@@ -48,7 +48,7 @@ module.exports = {
     // https://webpack.js.org/configuration/devtool/#development
     devtool: 'cheap-module-source-map',
 
-    dll: customedConfig.webpack.dll || [],
+    dll: (customedConfig.webpack && customedConfig.webpack.dll) || [],
 
     // If you have problems debugging vue-files in devtools,
     // set this to false - it *may* help
@@ -76,7 +76,7 @@ module.exports = {
     // https://webpack.js.org/configuration/devtool/#production
     devtool: 'source-map',
 
-    vendor: customedConfig.webpack.vendor || [],
+    vendor: (customedConfig.webpack && customedConfig.webpack.vendor) || [],
 
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
