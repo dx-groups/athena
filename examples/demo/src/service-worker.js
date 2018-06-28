@@ -1,3 +1,5 @@
+/* global workbox */
+
 workbox.setConfig({ debug: false });
 // Whether or not the service worker should skip over the waiting lifecycle stage.
 workbox.skipWaiting();

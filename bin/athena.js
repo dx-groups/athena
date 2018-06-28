@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+
+// Be convenient for debugging with child process, to avoid use the same inspector port address
+process.execArgv = process.execArgv.filter(a => a.includes('inspect-brk')).length > 0 ? ['--inspect-brk'] : []
+
 const chalk = require('chalk')
 const { fork, exec } = require('child_process')
 // const spawn = require('react-dev-utils/crossSpawn')
@@ -32,8 +36,7 @@ switch (script) {
       require.resolve(`../lib/${script}`),
       args,
       {
-        // stdio: 'inherit',
-        execArgv: process.execArgv.filter(a => a.includes('inspect-brk')).length > 0 ? ['--inspect-brk'] : [],
+        stdio: 'inherit',
       },
     )
 
@@ -60,8 +63,8 @@ switch (script) {
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
     exec(`eslint ${esArgs} && stylelint "${styleArgs}"`, (error, stdout) => {
       if (error) {
-        console.error(`Athena lint error: ${chalk.red(error)}`)
-        console.log(chalk.red(stdout))
+        console.log(chalk.red('Athena lint error: '))
+        console.log(stdout)
         // return;
       } else {
         console.log('Athena lint successfully!')
@@ -75,8 +78,8 @@ switch (script) {
     const styleArgs = args.map(f => `${f}/**/*.less`).join(' ')
     exec(`eslint --fix ${esArgs} && stylelint --fix "${styleArgs}"`, (error, stdout) => {
       if (error) {
-        console.error(`Athena lint-fix error: ${chalk.red(error)}`)
-        console.log(chalk.red(stdout))
+        console.log(chalk.red('Athena lint-fix error: '))
+        console.log(stdout)
         // return;
       } else {
         console.log('Athena lint-fix successfully!')
