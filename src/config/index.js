@@ -74,7 +74,7 @@ module.exports = {
     cssChunkFilename: 'static/js/[name].[chunkhash:8].chunk.css',
 
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: 'source-map',
+    devtool: 'hidden-source-map',
 
     vendor: (customedConfig.webpack && customedConfig.webpack.vendor) || [],
 

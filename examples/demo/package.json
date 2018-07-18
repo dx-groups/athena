@@ -2,18 +2,17 @@
   "name": "demo",
   "version": "0.0.1",
   "dependencies": {
-    "athena": "../../",
     "axios": "^0.18.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-hot-loader": "^4.3.0"
   },
   "scripts": {
-    "start": "athena start",
-    "build": "ATHENA_ENV_BUILD_ENV=test athena build",
-    "analyze": "ATHENA_ENV_BUILD_ENV=test athena build --report",
-    "lint": "athena lint src",
-    "lint-fix": "athena lint-fix src"
+    "start": "node ../../bin/athena start",
+    "build": "ATHENA_ENV_BUILD_ENV=test node ../../bin/athena build",
+    "analyze": "ATHENA_ENV_BUILD_ENV=test node ../../bin/athena build --report",
+    "lint": "node ../../bin/athena lint src",
+    "lint-fix": "node ../../bin/athena lint-fix src"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",
