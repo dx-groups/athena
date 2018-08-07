@@ -163,4 +163,4 @@ athena 默认集成了 webpack-api-mocker，并解析项目根目录下的 `.ath
 
 ## 注意事项
 
-- 若开发环境配置 webpack 时将 React*（React 及依赖 React 的库）加入 dll，那么将会引用 `react-dom.production.min.js`，若运行出错，那么错误信息会被隐藏，只显示 `Minified React error` 的错误。
+- ~~若开发环境配置 webpack 时将 React*（React 及依赖 React 的库）加入 dll，那么将会引用 `react-dom.production.min.js`，若运行出错，那么错误信息会被隐藏，只显示 `Minified React error` 的错误。~~ 已修复，2.1.5+
