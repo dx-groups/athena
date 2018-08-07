@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     vendor: config.dev.dll,
   },
+  mode: 'development',
   devtool: config.dev.devtool,
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:

@@ -160,3 +160,7 @@ export default hot(module)(App)
 为了提升开发体验，除了提供 proxy 的功能外，对简单的接口，mock 工具在很多场景下都是更好的选择
 
 athena 默认集成了 webpack-api-mocker，并解析项目根目录下的 `.athena.mock.js` 文件，具体语法请参考 [webpack-api-mocker](https://github.com/jaywcjlove/webpack-api-mocker)
+
+## 注意事项
+
+- 若开发环境配置 webpack 时将 React*（React 及依赖 React 的库）加入 dll，那么将会引用 `react-dom.production.min.js`，若运行出错，那么错误信息会被隐藏，只显示 `Minified React error` 的错误。
