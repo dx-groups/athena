@@ -3,7 +3,14 @@ const paths = require('../config/paths')
 const config = require('../config/index')
 
 // const styleLoader = require.resolve('style-loader')
-const lessLoader = require.resolve('less-loader')
+// const lessLoader = require.resolve('less-loader')
+const lessLoader = {
+  loader: 'less-loader',
+  options: {
+    javascriptEnabled: true,
+  },
+}
+
 const postcssLoader = {
   loader: 'postcss-loader',
   options: {
